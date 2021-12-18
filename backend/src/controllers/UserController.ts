@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { UserService } from "../services/UserService";
+import multer from "multer";
+import multerConfig from "../config/multer";
 
 export class UserController {
   async create(request: Request, response: Response) {
@@ -14,6 +16,18 @@ export class UserController {
     }
 
     return response.json(result);
+  }
+
+  async addUserAvatar(request: Request, response: Response) {
+    const upload = multer(multerConfig).single("file");
+
+    upload(request, response, (err) => {
+      if (err != null) {
+        return response.status(400).json(err.message);
+      }
+
+      return response.status(200).json("Upload successfully");
+    });
   }
 
   async getAll(response: Response) {
