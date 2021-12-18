@@ -2,8 +2,10 @@ import { getRepository } from "typeorm";
 import User from "../entities/User";
 
 type UserRequest = {
-  name: string;
-  birth_date: Date;
+  id?: string;
+  name?: string;
+  birth_date?: Date;
+  url_img?: string;
 };
 
 export class UserService {
@@ -58,7 +60,15 @@ export class UserService {
     await repo.delete(id);
   }
 
-  async updateUser({ id, name, birth_date }: User): Promise<User | Error> {
+  async updateUser({
+    id,
+    name,
+    birth_date,
+    url_img,
+  }: UserRequest): Promise<User | Error> {
+    if (!id) {
+      return new Error("Invalid id!");
+    }
     const repo = getRepository(User);
 
     const user = await repo.findOne(id);
@@ -69,6 +79,7 @@ export class UserService {
 
     user.name = name ? name : user.name;
     user.birth_date = birth_date ? birth_date : user.birth_date;
+    user.url_img = url_img ? url_img : user.url_img;
 
     return await repo.save(user);
   }

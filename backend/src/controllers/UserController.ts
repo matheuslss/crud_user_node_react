@@ -20,10 +20,20 @@ export class UserController {
 
   async addUserAvatar(request: Request, response: Response) {
     const upload = multer(multerConfig).single("file");
+    const service = new UserService();
 
-    upload(request, response, (err) => {
+    upload(request, response, async (err) => {
       if (err != null) {
         return response.status(400).json(err.message);
+      }
+
+      const result = await service.updateUser({
+        id: request.body.id,
+        url_img: request.file.path,
+      });
+
+      if (result instanceof Error) {
+        return response.status(400).json(result.message);
       }
 
       return response.status(200).json("Upload successfully");

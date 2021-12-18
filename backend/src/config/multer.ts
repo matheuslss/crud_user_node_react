@@ -1,17 +1,18 @@
 import multer from "multer";
 import path from "path";
 import crypto from "crypto";
-import { Response } from "express";
+
+const dest = path.resolve(__dirname, "..", "..", "tmp", "uploads");
 
 export default module.exports = {
-  dest: path.resolve(__dirname, "..", "..", "tmp", "uploads"),
+  dest: dest,
   onError: (err, next) => {
     console.log(err);
     next(err);
   },
   storage: multer.diskStorage({
     destination: (req, file, callback) => {
-      callback(null, path.resolve(__dirname, "..", "..", "tmp", "uploads"));
+      callback(null, dest);
     },
     filename: (req, file, callback) => {
       crypto.randomBytes(16, (err, hash) => {
@@ -21,7 +22,6 @@ export default module.exports = {
         }
 
         const fileName = `${hash.toString("hex")}-${file.originalname}`;
-        console.log("fileName", fileName);
 
         callback(null, fileName);
       });
