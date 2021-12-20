@@ -5,29 +5,11 @@ import multerConfig from "../config/multer";
 
 export class UserController {
   async create(request: Request, response: Response) {
-    const { name, birth_date } = request.body;
-
-    const service = new UserService();
-
-    const result = await service.createUser({ name, birth_date });
-
-    if (result instanceof Error) {
-      return response.status(400).json(result.message);
-    }
-
-    return response.json(result);
-  }
-
-  async addUserAvatar(request: Request, response: Response) {
     const upload = multer(multerConfig).single("file");
     const service = new UserService();
 
     upload(request, response, async (err) => {
       const { name, birth_date } = request.body;
-
-      console.log("request", request.file.path);
-      console.log("name", name);
-      console.log("birth_date", birth_date);
 
       if (err != null) {
         return response.status(400).json(err.message);
@@ -51,8 +33,6 @@ export class UserController {
     const service = new UserService();
 
     const result = await service.getUsers();
-
-    console.log(result);
 
     if (result instanceof Error) {
       return response.status(400).json(result.message);
@@ -89,16 +69,57 @@ export class UserController {
     const service = new UserService();
     const { name, birth_date } = request.body;
 
+    const user = await service.getUser(request.params.id);
+
+    if (user instanceof Error) {
+      return response.status(400).json("User not found");
+    }
+
     const result = await service.updateUser({
       id: request.params.id,
       name,
       birth_date,
     });
 
+    console.log(result);
     if (result instanceof Error) {
       return response.status(400).json(result.message);
     }
 
     return response.json(result);
+  }
+
+  async updateAvatar(request: Request, response: Response) {
+    const upload = multer(multerConfig).single("file");
+    const service = new UserService();
+
+    upload(request, response, async (err) => {
+      const { name, birth_date } = request.body;
+
+      if (err != null) {
+        return response.status(400).json(err.message);
+      }
+
+      const oldUser = await service.getUser(request.params.id);
+
+      console.log("oldUser", oldUser);
+
+      const data = {
+        id: request.params.id,
+        name,
+        birth_date,
+        url_img: request.file.path,
+      };
+
+      console.log("data", data);
+
+      // const result = await service.updateUser(data);
+
+      // if (result instanceof Error) {
+      //   return response.status(400).json(result.message);
+      // }
+
+      // return response.status(200).json(result);
+    });
   }
 }

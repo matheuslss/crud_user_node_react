@@ -8,14 +8,20 @@ import { User } from "../../@Types/User";
 import useUser from "../../hooks/useUser";
 import Upload from "../../components/Upload";
 
+import { toDate } from "../../utils/date";
+
 export default function Signup() {
-  const { createNewUser } = useUser();
-  const [name, setName] = useState("");
-  const [birthDate, setBirthDate] = useState("");
+  const { createNewUser, editUser, user } = useUser();
+
+  const [name, setName] = useState(user ? user.name : "");
+  const [birthDate, setBirthDate] = useState(
+    user.birth_date ? toDate(user.birth_date) : ""
+  );
   const [image, setImage] = useState({} as File);
-  const [imageInfo, setImageInfo] = useState("Teste");
+  const [imageInfo, setImageInfo] = useState(user ? user.url_img : "");
 
   const handleSignUp = async () => {
+    console.log("CREATE");
     const user: User = {
       name: name,
       birth_date: new Date(birthDate),
@@ -26,12 +32,24 @@ export default function Signup() {
     await createNewUser(user);
   };
 
+  const handleUpdate = async () => {
+    const data: User = {
+      id: user.id,
+      name: name,
+      birth_date: new Date(birthDate),
+      birth_date_string: birthDate,
+      image: image,
+    };
+
+    await editUser(data);
+  };
+
   const handleUpload = (file) => {
     setImage(file[0]);
   };
 
   useEffect(() => {
-    setImageInfo(image.name);
+    setImageInfo(user ? user.url_img : image.name);
   }, [image.name]);
 
   return (
@@ -63,13 +81,8 @@ export default function Signup() {
           {imageInfo}
         </div>
 
-        <Button onClick={handleSignUp}>Salvar</Button>
+        <Button onClick={user.id ? handleUpdate : handleSignUp}>Salvar</Button>
       </Card>
     </Container>
   );
 }
-
-type ImageInfoProps = {
-  fileName: string;
-  onChangeImage?: (file: any) => void;
-};

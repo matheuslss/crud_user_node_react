@@ -10,7 +10,7 @@ import {
   AppFooter,
 } from "./styles";
 import Router from "../routes";
-import { Link, useHref } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function App() {
   return (

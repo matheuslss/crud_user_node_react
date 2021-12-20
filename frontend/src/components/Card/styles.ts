@@ -59,6 +59,12 @@ export const CardIcons = styled.div`
   justify-content: center;
   align-items: center;
 
+  a {
+    background-color: red;
+    display: flex;
+    color: #fff;
+  }
+
   svg {
     cursor: pointer;
   }

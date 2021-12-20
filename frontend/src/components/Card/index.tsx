@@ -8,9 +8,14 @@ import {
 } from "./styles";
 import { User } from "../../@Types/User";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import { Link } from "react-router-dom";
+
+import useUser from "../../hooks/useUser";
 
 export default function Card(user: User) {
-  const [img, setImage] = useState<string>();
+  const { selectCurrentUser } = useUser();
+
+  const [img, setImage] = useState("");
 
   useEffect(() => {
     if (user.url_img) {
@@ -27,6 +32,12 @@ export default function Card(user: User) {
     }
   }, []);
 
+  const handleSelectUser = (user) => {
+    selectCurrentUser({ ...user, url_img: img });
+
+    return user;
+  };
+
   return (
     <CardContainer>
       <CardLayer />
@@ -38,7 +49,9 @@ export default function Card(user: User) {
         <p>{user.birth_date_string}</p>
         <p>Código: {user.code}</p>
         <CardIcons>
-          <FaEdit />
+          <Link to="/signup" onClick={() => handleSelectUser(user)}>
+            <FaEdit />
+          </Link>
           <FaTrashAlt />
         </CardIcons>
       </CardContent>

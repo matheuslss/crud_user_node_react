@@ -7,3 +7,11 @@ export const toDateBr = (date: Date) => {
 
   return formattedDate;
 };
+
+export const toDate = (date: Date) => {
+  const parsedTime = parseISO(date.toString());
+
+  const formattedDate = format(parsedTime, "yyyy-MM-dd", { locale: pt });
+
+  return formattedDate;
+};

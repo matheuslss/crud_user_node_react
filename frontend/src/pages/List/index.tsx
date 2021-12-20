@@ -7,7 +7,7 @@ import { User } from "../../@Types/User";
 import useUser from "../../hooks/useUser";
 
 export default function UserList() {
-  const { getAllUsers } = useUser();
+  const { getAllUsers, resetUser, user } = useUser();
   const [users, setUsers] = useState<User[] | [] | Error>([]);
 
   const handleGetUsers = useCallback(async () => {
@@ -17,7 +17,10 @@ export default function UserList() {
 
   useEffect(() => {
     handleGetUsers();
-  }, [setUsers]);
+    resetUser();
+  }, []);
+
+  console.log("USER LIST", user);
 
   return (
     <ListContainer>
