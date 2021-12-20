@@ -9,7 +9,7 @@ export class UserController {
 
     const service = new UserService();
 
-    const result = service.createUser({ name, birth_date });
+    const result = await service.createUser({ name, birth_date });
 
     if (result instanceof Error) {
       return response.status(400).json(result.message);
@@ -23,12 +23,19 @@ export class UserController {
     const service = new UserService();
 
     upload(request, response, async (err) => {
+      const { name, birth_date } = request.body;
+
+      console.log("request", request.file.path);
+      console.log("name", name);
+      console.log("birth_date", birth_date);
+
       if (err != null) {
         return response.status(400).json(err.message);
       }
 
-      const result = await service.updateUser({
-        id: request.body.id,
+      const result = await service.createUser({
+        name,
+        birth_date: new Date(birth_date),
         url_img: request.file.path,
       });
 
@@ -36,14 +43,16 @@ export class UserController {
         return response.status(400).json(result.message);
       }
 
-      return response.status(200).json("Upload successfully");
+      return response.status(200).json(result);
     });
   }
 
-  async getAll(response: Response) {
+  async getAll(request: Request, response: Response) {
     const service = new UserService();
 
     const result = await service.getUsers();
+
+    console.log(result);
 
     if (result instanceof Error) {
       return response.status(400).json(result.message);

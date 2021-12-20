@@ -9,11 +9,16 @@ type UserRequest = {
 };
 
 export class UserService {
-  async createUser({ name, birth_date }: UserRequest): Promise<User | Error> {
+  async createUser({
+    name,
+    birth_date,
+    url_img,
+  }: UserRequest): Promise<User | Error> {
     const repo = getRepository(User);
     const user = repo.create({
       name,
       birth_date,
+      url_img,
     });
 
     const newUser = await repo.save(user);

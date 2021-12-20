@@ -21,21 +21,23 @@ export const AppBackground = styled.div`
 `;
 
 export const AppHeader = styled.header`
-  background-color: blue;
   height: 70px;
   display: grid;
   grid-area: header;
   grid-template-columns: 1fr;
   justify-content: center;
+  align-items: center;
+  text-align: center;
 `;
 
 export const AppFooter = styled.footer`
-  background-color: yellow;
   height: 60px;
   display: grid;
   grid-area: footer;
   grid-template-columns: 1fr;
   justify-content: center;
+  align-items: center;
+  text-align: center;
 `;
 
 export const AppMain = styled.main`
@@ -43,7 +45,6 @@ export const AppMain = styled.main`
   width: 100%;
   display: grid;
   grid-area: main;
-  grid-gap: 20px;
   grid-template-areas:
     "sidebar content"
     ".       content";
@@ -52,30 +53,56 @@ export const AppMain = styled.main`
 
   @media (max-width: 850px) {
     grid-template-areas:
-    "sidebar";
-    "content";
-  grid-template-columns: 1fr;
+      "sidebar"
+      "content";
+    grid-template-columns: 1fr;
   }
 `;
 
 export const AppSidebar = styled.section`
-  background-color: orange;
-  margin-top: 20px;
+  background-color: ${({ theme }) => theme.colors.backgroundLight};
   grid-area: sidebar;
+  margin: 25px 10px;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+
+  h2 {
+    margin-bottom: 20px;
+  }
+
+  a {
+    height: 60px;
+    display: flex;
+    font-size: 14px;
+    font-weight: 400;
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: inherit;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 20px;
+    }
+
+    button {
+      background-color: #262626;
+      height: 60px;
+      width: 100%;
+      color: #fff !important;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+
+      &:hover a {
+        color: white !important;
+      }
+    }
+  }
 `;
 
 export const AppContainer = styled.div`
-  margin: 25px auto 25px;
-  display: grid;
   grid-area: content;
-  grid-gap: 20px;
-  grid-template-columns: repeat(3, 1fr);
-
-  @media (max-width: 1200px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (max-width: 850px) {
-    grid-template-columns: 1fr;
-  }
 `;

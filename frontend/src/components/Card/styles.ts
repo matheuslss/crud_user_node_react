@@ -3,11 +3,12 @@ import styled from "styled-components";
 export const CardContainer = styled.div`
   background: #333;
   position: relative;
-  height: 230px;
-  width: 300px;
+  height: 300px;
+  width: 280px;
   margin: 0 auto;
   padding: 20px;
   flex: 1 1 300px;
+  border-radius: 10px;
   box-sizing: border-box;
   text-align: center;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
@@ -41,11 +42,24 @@ export const CardContent = styled.div`
 `;
 
 export const CardAvatar = styled.div`
-  height: 60px;
-  width: 60px;
+  height: 100px;
+  width: 100px;
   margin: 0 auto;
   border-radius: 50%;
   overflow: hidden;
   border: 4px solid #fff;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+`;
+
+export const CardIcons = styled.div`
+  margin-top: 40px;
+  display: flex;
+  gap: 20px;
+  font-size: 24px;
+  justify-content: center;
+  align-items: center;
+
+  svg {
+    cursor: pointer;
+  }
 `;

@@ -9,29 +9,34 @@ import {
   AppContainer,
   AppFooter,
 } from "./styles";
-import Card from "../components/Card";
+import Router from "../routes";
+import { Link, useHref } from "react-router-dom";
 
 export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <AppBackground>
-        <AppHeader>Header</AppHeader>
+        <AppHeader>
+          <h1>CRUD de Usuários Node React</h1>
+        </AppHeader>
         <AppMain>
-          <AppSidebar>sidebar</AppSidebar>
+          <AppSidebar>
+            <h2>Menu</h2>
+            <Link to="/signup">
+              <button>Cadastrar Usuário</button>
+            </Link>
+            <Link to="/">
+              <button>Listar Usuários</button>
+            </Link>
+          </AppSidebar>
           <AppContainer>
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
+            <Router />
           </AppContainer>
         </AppMain>
-        <AppFooter>Footer</AppFooter>
+        <AppFooter>
+          <span>&copy; Todos os direitos reservados</span>
+        </AppFooter>
       </AppBackground>
     </ThemeProvider>
   );

@@ -5,6 +5,8 @@
 
 # misc
 /backend/tmp
+/frontend/src/assets/images
+/frontend/public/images
 /frontend/.DS_Store
 /frontend/.env.local
 /frontend/.env.development.local

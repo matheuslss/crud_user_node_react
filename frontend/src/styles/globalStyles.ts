@@ -4,12 +4,17 @@ const GlobalStyles = createGlobalStyle`
     * {
         padding: 0;
         margin: 0;
-        font-family: 'Roboto', sans-serif;
-        font-size: 16px;
+        outline: 0;
+        box-sizing: border-box;
     }
 
     body {
         background-color: ${({ theme }) => theme.colors.background};
+        height: 100vh;
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
     }
 
     input:focus, textarea:focus, select:focus {
@@ -29,9 +34,16 @@ const GlobalStyles = createGlobalStyle`
         font-weight: 700;
     }
 
+    .h1{
+        font-weight: 700;
+        font-size: 2rem;
+        line-height: 28px;
+        color: #000000;
+    }
+
     .h2{
-        font-weight: 500;
-        font-size: 1.5rem;
+        font-weight: 400;
+        font-size: 1.2rem;
         line-height: 28px;
         color: #000000;
     }
