@@ -3,6 +3,8 @@ import { Container, Card } from "./styles";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
 
+import { Link } from "react-router-dom";
+
 import { User } from "../../@Types/User";
 
 import useUser from "../../hooks/useUser";
@@ -48,7 +50,7 @@ export default function Signup() {
   };
 
   useEffect(() => {
-    setImageInfo(user ? user.url_img : image.name);
+    setImageInfo(user.id ? user.url_img : image.name);
   }, [image.name]);
 
   return (
@@ -57,12 +59,14 @@ export default function Signup() {
         <h1>Cadastro de Usuário</h1>
         <h2>Nome</h2>
         <Input
+          required
           placeholder="NOME"
           value={name}
           onChange={(event) => setName(event.target.value)}
         />
         <h2>DATA DE NASCIMENTO</h2>
         <Input
+          required
           placeholder="DATA DE NASCIMENTO"
           type="date"
           value={birthDate}
@@ -72,7 +76,6 @@ export default function Signup() {
           }}
         />
         <h2>AVATAR</h2>
-
         {!user.id && (
           <>
             <Upload onUpload={handleUpload} />
@@ -85,15 +88,15 @@ export default function Signup() {
             </div>
           </>
         )}
-
         {user.id && (
           <div>
             Não é possível alterar o avatar no momento. Tente novamente mais
             tarde!
           </div>
         )}
-
+        {/* <Link to="/"> */}
         <Button onClick={user.id ? handleUpdate : handleSignUp}>Salvar</Button>
+        {/* </Link> */}
       </Card>
     </Container>
   );

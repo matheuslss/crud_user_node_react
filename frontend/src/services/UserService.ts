@@ -28,19 +28,36 @@ export const getUser = async (id: string): Promise<User | Error> => {
 };
 
 export const createUser = async (user: User): Promise<User | Error> => {
-  const data = new FormData();
+  console.log("outside user", user);
 
-  data.append("name", user.name);
-  data.append("birth_date", user.birth_date_string);
-  data.append("file", user.image, user.image.name);
+  if (user.image.name) {
+    const data = new FormData();
+    data.append("name", user.name);
+    data.append("birth_date", user.birth_date_string);
+    data.append("file", user.image, user.image.name);
 
-  const resp: User | Error = await api.post("/users", data);
+    const resp: User | Error = await api.post("/users/avatar", data);
 
-  if (!resp || resp instanceof Error) {
-    return new Error("Não foi possĩvel cadastrar o usuário");
+    if (!resp || resp instanceof Error) {
+      return new Error("Não foi possĩvel cadastrar o usuário");
+    }
+
+    return resp;
+  } else {
+    const data = {
+      name: user.name,
+      birth_date: user.birth_date,
+    };
+
+    console.log("data", data);
+    const resp: User | Error = await api.post("/users", data);
+
+    if (!resp || resp instanceof Error) {
+      return new Error("Não foi possĩvel cadastrar o usuário");
+    }
+
+    return resp;
   }
-
-  return user;
 };
 
 export const updateUser = async (user: User): Promise<User | Error> => {

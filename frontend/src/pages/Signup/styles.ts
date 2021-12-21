@@ -36,6 +36,11 @@ export const Card = styled.div`
     }
   }
 
+  a {
+    display: flex;
+    width: 100%;
+  }
+
   button {
     margin-top: 20px;
     cursor: pointer;

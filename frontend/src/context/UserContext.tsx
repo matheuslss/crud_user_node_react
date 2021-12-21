@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState, useCallback } from "react";
+import { createContext, useState } from "react";
 import { User } from "../@Types/User";
 import {
   getUsers,
@@ -6,6 +6,8 @@ import {
   updateUser,
   removeUser,
 } from "../services/UserService";
+
+import { useNavigate } from "react-router-dom";
 
 interface UserContextData {
   users?: User[] | Error;
@@ -24,6 +26,7 @@ export const UserContext = createContext<UserContextData>(
 );
 
 export const UserProvider: React.FC = ({ children }) => {
+  const navigate = useNavigate();
   const [users, setUsers] = useState([] as User[] | Error);
   const [user, setUser] = useState({} as User);
 
@@ -38,11 +41,29 @@ export const UserProvider: React.FC = ({ children }) => {
   const createNewUser = async (user: User) => {
     const newUser = await createUser(user);
 
+    if (newUser) {
+      alert("Usuário cadastrado com sucesso!");
+      navigate("/");
+    }
+
+    if (!newUser) {
+      alert("Não foi possível cadastrar o usuário!");
+    }
+
     return newUser;
   };
 
   const editUser = async (user: User) => {
     const userEdited = await updateUser(user);
+
+    if (userEdited) {
+      alert("Usuário editado com sucesso!");
+      navigate("/");
+    }
+
+    if (!userEdited) {
+      alert("Não foi possível editar o usuário!");
+    }
 
     return userEdited;
   };

@@ -5,6 +5,21 @@ import multerConfig from "../config/multer";
 
 export class UserController {
   async create(request: Request, response: Response) {
+    const service = new UserService();
+    const { name, birth_date } = request.body;
+    const result = await service.createUser({
+      name,
+      birth_date: new Date(birth_date),
+    });
+
+    if (result instanceof Error) {
+      return response.status(400).json(result.message);
+    }
+
+    return response.status(200).json(result);
+  }
+
+  async createWithAvatar(request: Request, response: Response) {
     const upload = multer(multerConfig).single("file");
     const service = new UserService();
 
