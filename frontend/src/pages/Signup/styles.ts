@@ -38,6 +38,7 @@ export const Card = styled.div`
 
   button {
     margin-top: 20px;
+    cursor: pointer;
   }
 `;
 

@@ -7,36 +7,25 @@ import { User } from "../../@Types/User";
 import useUser from "../../hooks/useUser";
 
 export default function UserList() {
-  const { getAllUsers, resetUser, user } = useUser();
-  const [users, setUsers] = useState<User[] | [] | Error>([]);
+  const { getAllUsers, resetUser, deleteUser, user, users } = useUser();
+  const [usersList, setUsersList] = useState<User[] | [] | Error>([]);
 
   const handleGetUsers = useCallback(async () => {
     const data = await getAllUsers();
-    setUsers(data);
+    setUsersList(data);
   }, []);
 
   useEffect(() => {
     handleGetUsers();
     resetUser();
-  }, []);
-
-  console.log("USER LIST", user);
+  }, [users]);
 
   return (
     <ListContainer>
-      {users &&
-        Object.values(users).map((user: User) => (
+      {usersList &&
+        Object.values(usersList).map((user: User) => (
           <Card key={user.id} {...user} />
         ))}
-      <Dialog open={false}>
-        <h2>Excluír Usuário</h2>
-        <p>Essa ação não poderá ser revertida!</p>
-        <p>Deseja continuar?</p>
-        <div>
-          <button>Sim</button>
-          <button>Não</button>
-        </div>
-      </Dialog>
     </ListContainer>
   );
 }

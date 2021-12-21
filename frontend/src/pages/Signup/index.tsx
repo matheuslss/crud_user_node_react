@@ -21,7 +21,6 @@ export default function Signup() {
   const [imageInfo, setImageInfo] = useState(user ? user.url_img : "");
 
   const handleSignUp = async () => {
-    console.log("CREATE");
     const user: User = {
       name: name,
       birth_date: new Date(birthDate),
@@ -74,12 +73,25 @@ export default function Signup() {
         />
         <h2>AVATAR</h2>
 
-        <Upload onUpload={handleUpload} />
+        {!user.id && (
+          <>
+            <Upload onUpload={handleUpload} />
 
-        <div>
-          {imageInfo ? "Imagem selecionada:" : "Nenhuma imagem selecionada!"}{" "}
-          {imageInfo}
-        </div>
+            <div>
+              {imageInfo
+                ? "Imagem selecionada:"
+                : "Nenhuma imagem selecionada!"}{" "}
+              {imageInfo}
+            </div>
+          </>
+        )}
+
+        {user.id && (
+          <div>
+            Não é possível alterar o avatar no momento. Tente novamente mais
+            tarde!
+          </div>
+        )}
 
         <Button onClick={user.id ? handleUpdate : handleSignUp}>Salvar</Button>
       </Card>

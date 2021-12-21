@@ -1,16 +1,20 @@
 import { createContext, useEffect, useState, useCallback } from "react";
 import { User } from "../@Types/User";
-import { getUsers, createUser, updateUser } from "../services/UserService";
+import {
+  getUsers,
+  createUser,
+  updateUser,
+  removeUser,
+} from "../services/UserService";
 
 interface UserContextData {
-  users?: User[] | [];
+  users?: User[] | Error;
   user?: User;
   userSelected?: string | null;
   getAllUsers: () => Promise<User[] | Error>;
   createNewUser: (user: User) => Promise<User | Error>;
-  //   getUser?: () => Promise<User | Error>;
   editUser: (user: User) => Promise<User | Error>;
-  //   deleteUser?: () => Promise<Error>;
+  deleteUser: (id: string) => Promise<Error>;
   selectCurrentUser: (user: User) => User;
   resetUser: () => void;
 }
@@ -38,10 +42,16 @@ export const UserProvider: React.FC = ({ children }) => {
   };
 
   const editUser = async (user: User) => {
-    console.log("CTX", user);
     const userEdited = await updateUser(user);
 
     return userEdited;
+  };
+
+  const deleteUser = async (id: string) => {
+    const resp = await removeUser(id);
+
+    await getAllUsers();
+    return resp;
   };
 
   const selectCurrentUser = (user: User) => {
@@ -58,9 +68,11 @@ export const UserProvider: React.FC = ({ children }) => {
     <UserContext.Provider
       value={{
         user,
+        users,
         getAllUsers,
         createNewUser,
         editUser,
+        deleteUser,
         selectCurrentUser,
         resetUser,
       }}

@@ -60,9 +60,19 @@ export const CardIcons = styled.div`
   align-items: center;
 
   a {
-    background-color: red;
     display: flex;
     color: #fff;
+  }
+
+  button {
+    display: flex;
+    color: #fff;
+    border: none;
+    font-size: 24px;
+
+    &:hover {
+      border: none;
+    }
   }
 
   svg {

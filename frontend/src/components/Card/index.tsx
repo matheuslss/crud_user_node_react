@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   CardContainer,
   CardLayer,
@@ -6,6 +6,7 @@ import {
   CardAvatar,
   CardIcons,
 } from "./styles";
+import AlertDialog from "../Dialog";
 import { User } from "../../@Types/User";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -13,9 +14,26 @@ import { Link } from "react-router-dom";
 import useUser from "../../hooks/useUser";
 
 export default function Card(user: User) {
-  const { selectCurrentUser } = useUser();
+  const { selectCurrentUser, deleteUser } = useUser();
 
   const [img, setImage] = useState("");
+  const [showDialog, setShowDialog] = useState(false);
+
+  const handleDeleteUser = useCallback(async () => {
+    await deleteUser(user.id);
+  }, []);
+
+  const handleSelectUser = (user) => {
+    console.log("user", user);
+    selectCurrentUser({ ...user, url_img: img });
+
+    return user;
+  };
+
+  const handleDialog = () => {
+    setShowDialog((oldValue) => !oldValue);
+    handleSelectUser(user);
+  };
 
   useEffect(() => {
     if (user.url_img) {
@@ -32,12 +50,6 @@ export default function Card(user: User) {
     }
   }, []);
 
-  const handleSelectUser = (user) => {
-    selectCurrentUser({ ...user, url_img: img });
-
-    return user;
-  };
-
   return (
     <CardContainer>
       <CardLayer />
@@ -52,7 +64,15 @@ export default function Card(user: User) {
           <Link to="/signup" onClick={() => handleSelectUser(user)}>
             <FaEdit />
           </Link>
-          <FaTrashAlt />
+
+          <AlertDialog
+            show={showDialog}
+            title="Excluir Usuário"
+            text1="Essa ação não poderá ser desfeita!"
+            deleleUser={handleDeleteUser}
+          >
+            <FaTrashAlt onClick={() => handleDialog()} />
+          </AlertDialog>
         </CardIcons>
       </CardContent>
     </CardContainer>

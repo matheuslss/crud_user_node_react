@@ -44,7 +44,6 @@ export const createUser = async (user: User): Promise<User | Error> => {
 };
 
 export const updateUser = async (user: User): Promise<User | Error> => {
-  console.log(user);
   try {
     const resp: User | Error = await api.put(`/users/${user.id}`, user);
     if (!resp || resp instanceof Error) {
@@ -52,7 +51,22 @@ export const updateUser = async (user: User): Promise<User | Error> => {
     }
   } catch (e) {
     console.log(e);
+    return new Error("Não foi possível alterar as informações");
   }
 
   return user;
+};
+
+export const removeUser = async (id: string): Promise<Error> => {
+  try {
+    const resp: Error = await api.delete(`/users/${id}`);
+    if (!resp || resp instanceof Error) {
+      return new Error("Não foi possĩvel cadastrar o usuário");
+    }
+  } catch (e) {
+    console.log(e);
+    return new Error("Não foi possível alterar as informações");
+  }
+
+  return null;
 };
