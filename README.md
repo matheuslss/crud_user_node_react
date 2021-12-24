@@ -16,6 +16,7 @@ TYPEORM_ENTITIES = src/entities/*.ts
 TYPEORM_ENTITIES_DIR = src/entities
 
 Executar script yarn migrate no projeto backend
+
 Executar script yarn dev no projeto backend para subir backend
 
 Executar script yarn start no projeto frontend para subir frontend
